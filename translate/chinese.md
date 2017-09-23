@@ -1,11 +1,11 @@
-# Modern JavaScript Cheatsheet
+# <a id='modern-javascript-cheatsheet'></a>现代 JavaScript 速查表
 
 ![Modern JavaScript cheatsheet](https://i.imgur.com/aexPxMb.png)
 <small>图片来源: [Ahmad Awais ⚡️](https://github.com/ahmadawais)</small>
 
-## Introduction
+## <a id='introduction'></a>引言
 
-### Motivation
+### <a id='motivation'></a>创作原因
 
 本文档是您经常遇到的现代项目和大多数目前示例代码中的JavaScript脚本的速查表。
 
@@ -15,7 +15,7 @@
 
 > **Note:** 这里介绍的大部分概念来自于JavaScript语言更新（ES2015，通常称为ES6。 您可以找到此更新添加的新功能 [here](http://es6-features.org); it's very well done.
 
-### Complementary Resources
+### <a id='complementary-resources'></a>补充资源
 
 当您努力了解一个概念时，我建议您在以下资源上寻找答案：
 
