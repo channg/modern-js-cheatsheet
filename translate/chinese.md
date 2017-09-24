@@ -290,30 +290,29 @@ person = ["Nick"] // raises an error, 因为const声明的变量不允许重新�
 - [Temporal Dead Zone (TDZ) Demystified](http://jsrocks.org/2015/01/temporal-dead-zone-tdz-demystified)
 
 ### <a name="arrow_func_concept"></a> 箭头函数
+ES6 JavaScript更新引入了*箭头函数*，这是另一种声明和使用方法的方式。
+以下是他们带来的好处：
 
-The ES6 JavaScript update has introduced *arrow functions*, which is another way to declare and use functions. Here are the benefits they bring:
+- 更简洁
+- *this* 指向外部环境
+- 隐式 return
 
-- More concise
-- *this* is picked up from surroundings
-- implicit return
+#### 示例代码
 
-#### Sample code
-
-- Concision and implicit return
+- 简洁表现和隐含 return
 
 ```js
-function double(x) { return x * 2; } // Traditional way
+function double(x) { return x * 2; } // 传统方式声明
 console.log(double(2)) // 4
 ```
 
 ```js
-const double = x => x * 2; // Same function written as an arrow function with implicit return
+const double = x => x * 2; // 同样的函数使用箭头函数声明，隐含return
 console.log(double(2)) // 4
 ```
 
-- *this* reference
-
-In an arrow function, *this* is equal to the *this* value of the enclosing execution context. Basically, with arrow functions, you don't have to do the "that = this" trick before calling a function inside a function anymore.
+- *this*
+在箭头函数中。*this*与外部作用域的 *this* 相等。基本上，使用使用箭头函数，你不需要做其他额外的操作，比如 "that = this"，去存储一个外部作用域this的指针变量，因为两者相同。
 
 ```js
 function myFunc() {
@@ -325,107 +324,105 @@ function myFunc() {
 }
 ```
 
-#### Detailed explanation
+#### 详细说明
 
-##### Concision
+##### 简洁
+箭头函数在许多方面比传统函数更简洁。我们来看看所有可能的情况：
 
-Arrow functions are more concise than traditional functions in many ways. Let's review all the possible cases:
+- 隐式return VS 显式return
 
-- Implicit VS Explicit return
-
-An **explicit return** is a function where the *return* keyword is used in its body.
+ **显式返回 **是一个表达式，其返回*return*关键字在其函数中使用。
 
 ```js
   function double(x) {
     return x * 2; // this function explicitly returns x * 2, *return* keyword is used
   }
 ```
+以传统的方法声明，return总是显式的。但是使用箭头函数，您可以执行隐式返回，这意味着您不需要使用关键字return来返回值。
 
-In the traditional way of writing functions, the return was always explicit. But with arrow functions, you can do *implicit return* which means that you don't need to use the keyword *return* to return a value.
-
-To do an implicit return, the code must be written in a one-line sentence.
+一个隐式返回， 代码必须只有一行。
 
 ```js
   const double = (x) => {
-    return x * 2; // Explicit return here
+    return x * 2; // 显示return
   }
 ```
 
-Since there only is a return value here, we can do an implicit return.
+由于这里只有一个返回值，我们可以做一个隐式的返回。
 
 ```js
  const double = (x) => x * 2;
 ```
+为此，我们只需要**删除括号**和**return**关键字。
+这就是为什么它被称为隐式返回，return关键字不在那里，但是这个函数确实会返回```x * 2```。
 
-To do so, we only need to **remove the brackets** and the **return** keyword. That's why it's called an *implicit* return, the *return* keyword is not there, but this function will indeed return ```x * 2```.
+> **笔记:** 如果你的函数并不需要一个返回值（有副作用），请不要使用隐式return
 
-> **Note:** If your function does not return a value (with *side effects*), it doesn't do an explicit nor an implicit return.
+- 只有一个实参
 
-- Only one argument
-
-If your function only takes one parameter, you can omit the parenthesis around it. If we take back the above *double* code:
+如果你的函数只有一个参数，你可以忽略参数左右的小括号。如果我重新修改上面的两段代码
 
 ```js
- const double = (x) => x * 2; // this arrow function only takes one parameter
+ const double = (x) => x * 2; // 这个箭头函数只需一个参数
 ```
 
-Parenthesis around the parameter can be avoided:
+可以忽略参数左右的小括号：
 
 ```js
- const double = x => x * 2; // this arrow function only takes one parameter
+ const double = x => x * 2; // 这个箭头函数只需一个参数
 ```
 
-- No arguments
+- 无参数
 
-When there is no argument provided to an arrow function, you need to provide parentheses, or it won't be valid syntax.
+当没有向箭头函数提供参数时，需要提供括号，否则它将不是有效的语法。
 
 ```js
-  () => { // parenthesis are provided, everything is fine
+  () => { // 又括号，正常
     const x = 2;
     return x;
   }
 ```
 
 ```js
-  => { // No parenthesis, this won't work!
+  => { // 没有括号，异常
     const x = 2;
     return x;
   }
 ```
 
-##### *this* reference
+##### *this*
 
-To understand this subtlety introduced with arrow functions, you must know how [this](#this_def) behaves in JavaScript.
+想要了解箭头this在箭头函数中细微表现，你必须知道 [this](#this_def) 在javascript中的行为表现。
 
-In an arrow function, *this* is equal to the *this* value of the enclosing execution context. What it means is that an arrow function doesn't create a new *this*, it grabs it from its surrounding instead.
+在箭头函数中。this与外部作用域的 this 相等。也就是说在箭头函数中，this不会被重新创造，而是直接饮用外部环境的this。
 
-Without arrow function, if you wanted to access a variable from *this* in a function inside a function, you had to use the *that = this* or *self = this* trick.
+如果不是一个箭头函数，当你在函数内部想要访问外部函数的this变量时，你必须要使用*that = this* or *self = this* 显示声明并绑定外部this的这种方式。
 
 For instance, using setTimeout function inside myFunc:
 
 ```js
 function myFunc() {
   this.myVar = 0;
-  var that = this; // that = this trick
+  var that = this; // that = this
   setTimeout(
-    function() { // A new *this* is created in this function scope
+    function() { // 在新的函数中，内部this覆盖了外部的this
       that.myVar++;
       console.log(that.myVar) // 1
 
-      console.log(this.myVar) // undefined -- see function declaration above
+      console.log(this.myVar) // undefined
     },
     0
   );
 }
 ```
 
-But with arrow function, *this* is taken from its surrounding:
+但在箭头函数中。this与外部作用域的 this 相等
 
 ```js
 function myFunc() {
   this.myVar = 0;
   setTimeout(
-    () => { // this taken from surrounding, meaning myFunc here
+    () => { // 内部this 指向外部this
       this.myVar++;
       console.log(this.myVar) // 1
     },
@@ -434,7 +431,7 @@ function myFunc() {
 }
 ```
 
-#### Useful resources
+#### 不错的资源
 
 - [Arrow functions introduction - WesBos](http://wesbos.com/arrow-functions/)
 - [JavaScript arrow function - MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions)
